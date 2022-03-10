@@ -7,7 +7,8 @@ using std::size_t;
 
 class Shape {
   private:
-    const size_t m_rows, m_columns;
+    const size_t m_rows    = 0;
+    const size_t m_columns = 0;
 
   public:
     size_t getRows() const;

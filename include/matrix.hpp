@@ -8,20 +8,20 @@
 
 using std::vector, std::initializer_list;
 
-template <typename T> class Matrix {
+template <typename ItemType> class Matrix {
   private:
-    vector<T> columns, rows;
+    vector<ItemType> columns, rows;
     const Shape m_shape;
 
   public:
-    vector<T> getColumns() const;
-    vector<T> getRows() const;
+    vector<ItemType> getColumns() const;
+    vector<ItemType> getRows() const;
     Shape getShape() const;
 
     Matrix() = default;
     Matrix(const Shape);
     Matrix(initializer_list<Matrix>);
-    Matrix(vector<vector<T>>);
+    Matrix(vector<vector<ItemType>>);
 };
 
 #endif // MATRIX_HPP_
