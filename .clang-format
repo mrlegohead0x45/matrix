@@ -1,4 +1,6 @@
 AlignConsecutiveAssignments: Consecutive
 ColumnLimit: 80
+IncludeBlocks: Regroup
 IndentWidth: 4
 ReflowComments: false
+SortIncludes: CaseInsensitive
