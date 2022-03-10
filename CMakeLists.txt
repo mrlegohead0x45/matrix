@@ -6,6 +6,13 @@ add_library(matrix src/matrix.cpp)
 
 target_include_directories(matrix PUBLIC include)
 
+target_compile_options(matrix PRIVATE 
+    $<$<CXX_COMPILER_ID:Clang,GNU,AppleClang>:
+        -Wall -Werror -Wextra>
+    $<$<CXX_COMPILER_ID:MSVC>:
+        /WX /W4>
+)
+
 install(
     TARGETS matrix
     EXPORT matrix
