@@ -1,5 +1,7 @@
 #include "matrix.hpp"
 
+#include "shape.hpp"
+
 #include <vector>
 
 using std::vector;
@@ -19,4 +21,8 @@ vector<ItemType> Matrix<ItemType>::getColumns() const {
 template <typename ItemType>
 vector<ItemType> Matrix<ItemType>::getRows() const {
     return this->m_rows;
+}
+
+template <typename ItemType> const Shape Matrix<ItemType>::getShape() const {
+    return this->m_shape;
 }

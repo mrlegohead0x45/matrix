@@ -16,7 +16,7 @@ template <typename ItemType> class Matrix {
   public:
     vector<ItemType> getColumns() const;
     vector<ItemType> getRows() const;
-    Shape getShape() const;
+    const Shape getShape() const;
 
     Matrix() = default;
     Matrix(const Shape);
