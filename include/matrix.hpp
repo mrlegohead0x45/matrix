@@ -10,7 +10,7 @@ using std::vector, std::initializer_list;
 
 template <typename ItemType> class Matrix {
   private:
-    vector<ItemType> columns, rows;
+    vector<ItemType> m_columns, m_rows;
     const Shape m_shape;
 
   public:
