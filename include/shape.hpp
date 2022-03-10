@@ -14,7 +14,7 @@ class Shape {
     size_t getColumns() const;
 
     Shape() = default;
-    Shape(size_t rows, size_t columns);
+    Shape(size_t, size_t);
 };
 
 #endif // SHAPE_HPP_
