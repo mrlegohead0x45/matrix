@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(matrix CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 20)
 
 set(matrix_srcs "src/matrix.cpp" "src/shape.cpp")
 add_library(matrix ${matrix_srcs})
