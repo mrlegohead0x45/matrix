@@ -1,0 +1,25 @@
+{
+  "name": "matrix",
+  "version-string": "0.1.0",
+  "description": "matrices for the sake of it",
+  "homepage": "https://github.com/mrlegohead0x45/matrix",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ],
+  "features": {
+    "tests": {
+      "description": "build tests",
+      "dependencies": [
+        "gtest"
+      ]
+    }
+  }
+}

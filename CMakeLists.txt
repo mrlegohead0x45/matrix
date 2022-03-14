@@ -4,10 +4,13 @@ project(matrix CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 
+option(BUILD_TESTS "Whether to build the tests" OFF)
+
 set(matrix_srcs "src/matrix.cpp" "src/shape.cpp")
+set(matrix_headers "include/matrix.hpp" "include/shape.hpp")
 add_library(matrix ${matrix_srcs})
 
-target_include_directories(matrix PUBLIC include)
+target_include_directories(matrix PRIVATE include)
 
 target_compile_options(matrix PRIVATE 
     $<$<CXX_COMPILER_ID:Clang,GNU,AppleClang>:
@@ -21,5 +24,10 @@ install(
     EXPORT matrix
     LIBRARY DESTINATION bin
     ARCHIVE DESTINATION lib
-    INCLUDES DESTINATION include
 )
+install(FILES ${matrix_headers} DESTINATION include/matrix)
+install(EXPORT matrix DESTINATION matrix)
+
+if(BUILD_TESTS)
+    add_subdirectory(test)
+endif()
