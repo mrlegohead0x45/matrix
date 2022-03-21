@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.22)
+
+option(BUILD_TESTS "Whether to build the tests" OFF)
+if(BUILD_TESTS)
+    list(APPEND VCPKG_MANIFEST_FEATURES "tests")
+    include("../vcpkg/scripts/buildsystems/vcpkg.cmake")
+    add_subdirectory(test)
+endif()
+
 project(matrix CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
-
-option(BUILD_TESTS "Whether to build the tests" OFF)
 
 set(matrix_srcs "src/matrix.cpp" "src/shape.cpp")
 set(matrix_headers "include/matrix.hpp" "include/shape.hpp")
@@ -27,7 +33,3 @@ install(
 )
 install(FILES ${matrix_headers} DESTINATION include/matrix)
 install(EXPORT matrix DESTINATION matrix)
-
-if(BUILD_TESTS)
-    add_subdirectory(test)
-endif()

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 enable_testing()
 
-set(matrix_test_srcs "")
+set(matrix_test_srcs "src/sanity.cpp")
 add_executable(matrix-test ${matrix_test_srcs})
 
 find_package(GTest CONFIG REQUIRED)
