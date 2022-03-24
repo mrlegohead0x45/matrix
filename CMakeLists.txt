@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 option(BUILD_TESTS "Whether to build the tests" OFF)
 if(BUILD_TESTS)
     list(APPEND VCPKG_MANIFEST_FEATURES "tests")
-    include("../vcpkg/scripts/buildsystems/vcpkg.cmake")
+    include("test/vcpkg/scripts/buildsystems/vcpkg.cmake")
     add_subdirectory(test)
 endif()
 
