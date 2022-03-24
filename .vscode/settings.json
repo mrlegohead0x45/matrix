@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "*.jinja": "jinja",
-        ".replit": "toml",
-        ".clang-format": "yaml",
-        "concepts": "cpp"
-    }
-}
