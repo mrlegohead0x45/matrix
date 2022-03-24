@@ -7,21 +7,21 @@
 
 using std::vector, std::size_t;
 
-template <typename ItemType>
-Matrix<ItemType>::Matrix(Shape shape) : m_shape(shape) {
+template <typename ScalarType>
+Matrix<ScalarType>::Matrix(Shape shape) : m_shape(shape) {
     // allocate enough space for a matrix of this shape
     this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 };
 
-template <typename ItemType>
-Matrix<ItemType>::Matrix(size_t rows, size_t columns) : m_shape(rows, columns) {
+template <typename ScalarType>
+Matrix<ScalarType>::Matrix(size_t rows, size_t columns) : m_shape(rows, columns) {
     this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 }
 
-template <typename ItemType>
-Matrix<ItemType> Matrix<ItemType>::getColumns() const {
+template <typename ScalarType>
+Matrix<ScalarType> Matrix<ScalarType>::getColumns() const {
     // this should return the first column top-down as a vector, then the second etc
 
     Matrix columns(this->getRows());
@@ -37,11 +37,11 @@ Matrix<ItemType> Matrix<ItemType>::getColumns() const {
     return columns;
 }
 
-template <typename ItemType>
-vector<vector<ItemType>> Matrix<ItemType>::getRows() const {
+template <typename ScalarType>
+vector<vector<ScalarType>> Matrix<ScalarType>::getRows() const {
     return this->m_rows;
 }
 
-template <typename ItemType> Shape Matrix<ItemType>::getShape() const {
+template <typename ScalarType> Shape Matrix<ScalarType>::getShape() const {
     return this->m_shape;
 }
