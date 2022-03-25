@@ -26,7 +26,7 @@ jobs:
     env:
       CXX: ${{ matrix.cxx }}
       CC: ${{ matrix.cc }}
-      build_dir: ${{ github.workspace }}/build/${{ env.CXX }}
+      build_dir: ${{ github.workspace }}/build/${{ matrix.CXX }}
 
     runs-on: ubuntu-latest
 
