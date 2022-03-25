@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <vector>
 
+namespace matrix {
+
 using std::vector, std::size_t;
 
 template <typename ScalarType>
@@ -15,7 +17,8 @@ Matrix<ScalarType>::Matrix(Shape shape) : m_shape(shape) {
 };
 
 template <typename ScalarType>
-Matrix<ScalarType>::Matrix(size_t rows, size_t columns) : m_shape(rows, columns) {
+Matrix<ScalarType>::Matrix(size_t rows, size_t columns)
+    : m_shape(rows, columns) {
     this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 }
@@ -23,6 +26,7 @@ Matrix<ScalarType>::Matrix(size_t rows, size_t columns) : m_shape(rows, columns)
 template <typename ScalarType>
 Matrix<ScalarType> Matrix<ScalarType>::getColumns() const {
     // this should return the first column top-down as a vector, then the second etc
+    // or think of it as rotating 90 degrees clockwise
 
     Matrix columns(this->getRows());
     // left to right
@@ -45,3 +49,5 @@ vector<vector<ScalarType>> Matrix<ScalarType>::getRows() const {
 template <typename ScalarType> Shape Matrix<ScalarType>::getShape() const {
     return this->m_shape;
 }
+
+} // namespace matrix

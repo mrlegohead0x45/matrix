@@ -8,6 +8,8 @@
 #include <initializer_list>
 #include <vector>
 
+namespace matrix {
+
 using std::vector, std::initializer_list, std::size_t;
 
 template <typename ScalarType>
@@ -31,5 +33,7 @@ class Matrix {
     Matrix(
         initializer_list<vector<ScalarType>>); // Matrix m{{1, 2, 3}, {4, 5, 6}}
 };
+
+} // namespace matrix
 
 #endif // MATRIX_HPP_

@@ -3,6 +3,8 @@
 
 #include <cstddef>
 
+namespace matrix {
+
 using std::size_t;
 
 class Shape {
@@ -17,5 +19,7 @@ class Shape {
     Shape() = default;
     Shape(size_t, size_t);
 };
+
+} // namespace matrix
 
 #endif // SHAPE_HPP_
