@@ -1,0 +1,55 @@
+name: CMake
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        cxx: ["g++", "clang++"]
+        cc: ["gcc", "clang"]
+        # exclude different c & c++ compilers
+        exclude:
+          - cxx: g++
+            cc: clang
+
+          - cxx: clang++
+            cc: gcc
+
+    env:
+      CXX: ${{ matrix.cxx }}
+      CC: ${{ matrix.cc }}
+      build_dir: ${{ github.workspace }}/build/${{ env.CXX }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Ninja
+        run: sudo apt-get install ninja-build
+
+      - uses: lukka/run-vcpkg@v10.2
+        with:
+          vcpkgDirectory: ${{ github.workspace }}/test/vcpkg
+          runVcpkgInstall: false
+
+      - uses: actions/checkout@v2
+
+      - name: Configure CMake
+        run: |
+          cmake -B ${{ env.build_dir }} -S ${{ github.workspace }} -G Ninja \
+           -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON        \
+           -DVCPKG_TARGET_TRIPLET=x64-linux
+
+      - name: Build
+        run: cmake --build ${{ env.build_dir }} --config ${{env.BUILD_TYPE}}
+
+      - name: Test
+        working-directory: ${{ env.build_dir }}/test
+        run: ctest -C ${{ env.BUILD_TYPE }}
