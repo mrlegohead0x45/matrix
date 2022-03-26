@@ -34,12 +34,12 @@ jobs:
       - name: Install Ninja
         run: sudo apt-get install ninja-build
 
+      - uses: actions/checkout@v2
+
       - uses: lukka/run-vcpkg@v10.2
         with:
           vcpkgDirectory: ${{ github.workspace }}/test/vcpkg
           runVcpkgInstall: false
-
-      - uses: actions/checkout@v2
 
       - name: Configure CMake
         run: |
