@@ -13,11 +13,14 @@ jobs:
   build:
     strategy:
       matrix:
-        config:
-          - cxx: clang++-14
+        cxx: ["g++-10", "clang++-14"]
+        cc: ["gcc-10", "clang-14"]
+        # exclude different c & c++ compilers
+        exclude:
+          - cxx: g++-10
             cc: clang-14
 
-          - cxx: g++-10
+          - cxx: clang++-14
             cc: gcc-10
 
     env:
