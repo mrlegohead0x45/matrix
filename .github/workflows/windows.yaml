@@ -31,6 +31,7 @@ jobs:
         run: |
           mkdir "${{ env.build_dir }}"
           "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+          
           cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja ^
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           ^
             -DVCPKG_TARGET_TRIPLET=x64-windows
