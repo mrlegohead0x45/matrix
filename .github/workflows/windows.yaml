@@ -32,9 +32,8 @@ jobs:
       - name: Configure CMake
         shell: powershell
         run: |
-          Install-Module -Name Pscx -RequiredVersion 3.3.2 -AllowClobber
-          Import-Module -Name Pscx
-          Invoke-BatchScript "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          . "${{ github.workspace}}/.github/Invoke-Environment.ps1"
+          Invoke-Environment "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja ^
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           ^
             -DVCPKG_TARGET_TRIPLET=x64-windows
