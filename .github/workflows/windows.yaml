@@ -27,7 +27,7 @@ jobs:
           submodules: true
 
       - name: Create build directory
-        run: cmake -E make_directory ${{ env.build_dir }}"
+        run: cmake -E make_directory "${{ env.build_dir }}"
 
       - name: Configure CMake
         shell: cmd
