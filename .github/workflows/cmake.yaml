@@ -28,8 +28,8 @@ jobs:
             os: ubuntu-latest
             triplet: x64-linux
 
-          - cxx: ""
-            cc: ""
+          - cxx: cl
+            cc: cl
             os: windows-latest
             triplet: x64-windows
 
