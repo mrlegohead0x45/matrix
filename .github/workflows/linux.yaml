@@ -21,8 +21,8 @@ jobs:
           - cxx: clang++-12
             cc: gcc-10
 
-          - cxx: clang++-12
-            cc: gcc-10
+          - cxx: g++-10
+            cc: clang-12
 
       fail-fast: false
 
