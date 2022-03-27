@@ -26,12 +26,13 @@ jobs:
         with:
           submodules: true
 
+      - name: Create build directory
+        run: cmake -E make_directory ${{ env.build_dir }}"
+
       - name: Configure CMake
         shell: cmd
         run: |
-          mkdir "${{ env.build_dir }}"
           "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          
           cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja ^
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           ^
             -DVCPKG_TARGET_TRIPLET=x64-windows
