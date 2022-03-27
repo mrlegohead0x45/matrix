@@ -22,16 +22,23 @@ jobs:
             cc: gcc-10
             os: ubuntu-latest
             triplet: x64-linux
+            shell: bash
+            esc: \
 
           - cxx: clang++-12
             cc: clang-12
             os: ubuntu-latest
             triplet: x64-linux
+            shell: bash
+            esc: \
 
           - cxx: cl
             cc: cl
             os: windows-latest
             triplet: x64-windows
+            shell: cmd
+            esc: ^
+            init: '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64'
 
       fail-fast: false
 
@@ -51,13 +58,11 @@ jobs:
           submodules: true
 
       - name: Configure CMake
-        shell: bash
+        shell: ${{ matrix.shell }}
         run: |
-          if [[ ${{ matrix.os }} = "windows-latest" ]]; then
-            "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          fi
-          cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja \
-           -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON        \
+          ${{ matrix.init }}
+          cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja ${{ matrix.esc}}
+           -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON            ${{ matrix.esc }}
            -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
       - name: Build
