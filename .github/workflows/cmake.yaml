@@ -28,8 +28,8 @@ jobs:
             os: ubuntu-latest
             triplet: x64-linux
 
-          - cxx: cl
-            cc: cl
+          - cxx: ""
+            cc: ""
             os: windows-latest
             triplet: x64-windows
 
@@ -51,6 +51,7 @@ jobs:
           submodules: true
 
       - name: Configure CMake
+        shell: bash
         run: |
           cmake -B ${{ env.build_dir }} -S ${{ github.workspace }} -G Ninja \
            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON        \
