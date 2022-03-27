@@ -13,15 +13,25 @@ jobs:
   build:
     strategy:
       matrix:
-        cxx: ["g++-10", "clang++-12"]
-        cc: ["gcc-10", "clang-12"]
-        # exclude different c & c++ compilers
-        exclude:
+        # cxx: ["g++-10", "clang++-12", "cl"]
+        # cc: ["gcc-10", "clang-12", "cl"]
+        # os: ["ubuntu-latest", "windows-latest"]
+
+        include:
           - cxx: g++-10
-            cc: clang-12
+            cc: gcc-10
+            os: ubuntu-latest
+            triplet: x64-linux
 
           - cxx: clang++-12
-            cc: gcc-10
+            cc: clang-12
+            os: ubuntu-latest
+            triplet: x64-linux
+
+          - cxx: cl
+            cc: cl
+            os: windows-latest
+            triplet: x64-windows
 
       fail-fast: false
 
@@ -30,7 +40,7 @@ jobs:
       CC: ${{ matrix.cc }}
       build_dir: ${{ github.workspace }}/build/${{ matrix.CXX }}
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Install Ninja
@@ -44,7 +54,7 @@ jobs:
         run: |
           cmake -B ${{ env.build_dir }} -S ${{ github.workspace }} -G Ninja \
            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON        \
-           -DVCPKG_TARGET_TRIPLET=x64-linux
+           -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
       - name: Build
         run: cmake --build ${{ env.build_dir }} --config ${{env.BUILD_TYPE}}
