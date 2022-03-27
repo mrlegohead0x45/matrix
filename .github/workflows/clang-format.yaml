@@ -1,0 +1,41 @@
+name: Clang-format
+
+on:
+  pull_request:
+    paths: # only run if c++ files were changed
+      - "src/*.cpp"
+      - "include/*.hpp"
+      - "test/src/*.cpp"
+
+jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get changed files
+        id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: space-delimited
+
+      - name: Run clang-format
+        shell: bash {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cpp_file_re=".*\.[ch]pp"
+
+          for file in $files; do
+            if [[ $file =~ $cpp_file_re ]]; then # if it's a c++ file
+              clang-format-12 -Werror -n $file
+              not_formatted=$? # will be 0 if formatted, 1 if not
+            fi
+          done
+
+          if [[ $not_formatted -eq 1 ]]; then
+            # add a comment saying so
+            gh pr comment ${{ github.event.number }} \
+              -F ${{ github.workspace }}/.github/clang-format-msg.txt
+            exit 1
+          fi
