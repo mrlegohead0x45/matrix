@@ -34,13 +34,16 @@ jobs:
         run: |
           . "${{ github.workspace}}/.github/Invoke-Environment.ps1"
           Invoke-Environment "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          $env:INCLUDE -split ';'
           cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja `
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           `
             -DVCPKG_TARGET_TRIPLET=x64-windows
 
       - name: Build
-        run: cmake --build ${{ env.build_dir }} --config ${{ env.BUILD_TYPE }}
+        shell: powershell
+        run: |
+          . "${{ github.workspace}}/.github/Invoke-Environment.ps1"
+          Invoke-Environment "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cmake --build ${{ env.build_dir }} --config ${{ env.BUILD_TYPE }}
 
       - name: Test
         working-directory: ${{ env.build_dir }}/test
