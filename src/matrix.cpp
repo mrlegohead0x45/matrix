@@ -1,3 +1,6 @@
+// Copyright (c) 2022, mrlegohead0x45
+// SPDX-License-Identifier: MIT
+
 #include "matrix.hpp"
 
 #include "concept.hpp"

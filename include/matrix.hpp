@@ -1,3 +1,6 @@
+// Copyright (c) 2022, mrlegohead0x45
+// SPDX-License-Identifier: MIT
+
 #ifndef MATRIX_HPP_
 #define MATRIX_HPP_
 

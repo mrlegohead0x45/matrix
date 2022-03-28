@@ -1,3 +1,6 @@
+// Copyright (c) 2022, mrlegohead0x45
+// SPDX-License-Identifier: MIT
+
 #ifndef SHAPE_HPP_
 #define SHAPE_HPP_
 
