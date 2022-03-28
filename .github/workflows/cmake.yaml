@@ -13,16 +13,6 @@ jobs:
   build:
     strategy:
       matrix:
-        # cxx: ["g++-10", "clang++-12"]
-        # cc: ["gcc-10", "clang-12"]
-
-        # exclude different c and c++ compilers
-        # exclude:
-        #   - cxx: clang++-12
-        #     cc: gcc-10
-
-        #   - cxx: g++-10
-        #     cc: clang-12
         include:
           - cxx: clang++-12
             cc: clang-12
