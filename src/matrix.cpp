@@ -1,5 +1,6 @@
 #include "matrix.hpp"
 
+#include "concept.hpp"
 #include "shape.hpp"
 
 #include <cstddef>
@@ -10,23 +11,27 @@ namespace matrix {
 using std::vector, std::size_t;
 
 template <typename ScalarType>
-Matrix<ScalarType>::Matrix(Shape shape) : m_shape(shape) {
+requires ValidScalarType<ScalarType> Matrix<ScalarType>::Matrix(Shape shape)
+    : m_shape(shape) {
     // allocate enough space for a matrix of this shape
     this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 };
 
 template <typename ScalarType>
-Matrix<ScalarType>::Matrix(size_t rows, size_t columns)
+requires ValidScalarType<ScalarType> Matrix<ScalarType>::Matrix(size_t rows,
+                                                                size_t columns)
     : m_shape(rows, columns) {
     this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 }
 
 template <typename ScalarType>
-Matrix<ScalarType> Matrix<ScalarType>::getColumns() const {
+requires ValidScalarType<ScalarType> Matrix<ScalarType>
+Matrix<ScalarType>::getColumns()
+const {
     // this should return the first column top-down as a vector, then the second etc
-    // or think of it as rotating 90 degrees clockwise
+    // or think of it as rotating 90 degrees clockwise then reflecting left to right
 
     Matrix columns(this->getRows());
     // left to right
@@ -42,12 +47,12 @@ Matrix<ScalarType> Matrix<ScalarType>::getColumns() const {
 }
 
 template <typename ScalarType>
-vector<vector<ScalarType>> Matrix<ScalarType>::getRows() const {
-    return this->m_rows;
-}
+requires ValidScalarType<ScalarType> vector<vector<ScalarType>>
+Matrix<ScalarType>::getRows()
+const { return this->m_rows; }
 
-template <typename ScalarType> Shape Matrix<ScalarType>::getShape() const {
-    return this->m_shape;
-}
+template <typename ScalarType>
+requires ValidScalarType<ScalarType> Shape Matrix<ScalarType>::getShape()
+const { return this->m_shape; }
 
 } // namespace matrix

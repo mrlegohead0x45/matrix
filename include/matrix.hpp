@@ -13,7 +13,7 @@ namespace matrix {
 using std::vector, std::initializer_list, std::size_t;
 
 template <typename ScalarType>
-requires ScalarValid<ScalarType>
+requires ValidScalarType<ScalarType>
 class Matrix {
   private:
     vector<vector<ScalarType>> m_rows;

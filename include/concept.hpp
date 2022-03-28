@@ -20,7 +20,7 @@ concept IntLike = requires(T a) { // clang-format off
 &&std::convertible_to<T, int>;
 
 template <typename ScalarType>
-concept ScalarValid =
+concept ValidScalarType =
     IntLike<ScalarType> && std::equality_comparable<ScalarType>;
 
 } // namespace matrix
