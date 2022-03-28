@@ -1,4 +1,4 @@
-name: CMake Linux
+name: CMake
 
 on:
   push:
@@ -13,20 +13,35 @@ jobs:
   build:
     strategy:
       matrix:
-        cxx: ["g++-10", "clang++-12"]
-        cc: ["gcc-10", "clang-12"]
+        # cxx: ["g++-10", "clang++-12"]
+        # cc: ["gcc-10", "clang-12"]
 
         # exclude different c and c++ compilers
-        exclude:
+        # exclude:
+        #   - cxx: clang++-12
+        #     cc: gcc-10
+
+        #   - cxx: g++-10
+        #     cc: clang-12
+        include:
           - cxx: clang++-12
-            cc: gcc-10
+            cc: clang-12
+            os: ubuntu-latest
+            triplet: x64-linux
 
           - cxx: g++-10
-            cc: clang-12
+            cc: gcc-10
+            os: ubuntu-latest
+            triplet: x64-linux
+
+          - cxx: cl
+            cc: cl
+            os: windows-latest
+            triplet: x64-windows
 
       fail-fast: false
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     env:
       CXX: ${{ matrix.cxx }}
@@ -41,15 +56,29 @@ jobs:
         with:
           submodules: true
 
-      - name: Configure CMake
+      - name: Set up Visual Studio environment variables
+        shell: pwsh
+        if: ${{ matrix.os }} == "windows-latest"
         run: |
-          cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja \
-            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           \
-            -DVCPKG_TARGET_TRIPLET=x64-linux
+          . "${{ github.workspace }}/scripts/Invoke-Environment.ps1"
+          Invoke-Environment "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+
+      - name: Create build environment
+        shell: pwsh
+        run: cmake -E make_directory "${{ env.build_dir }}"
+
+      - name: Configure CMake
+        shell: pwsh
+        run: |
+          cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja `
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           `
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
 
       - name: Build
-        run: cmake --build ${{ env.build_dir }} --config ${{ env.BUILD_TYPE }}
+        shell: pwsh
+        run: cmake --build "${{ env.build_dir }}" --config ${{ env.BUILD_TYPE }}
 
       - name: Test
+        shell: pwsh
         working-directory: ${{ env.build_dir }}/test
         run: ctest -C ${{ env.BUILD_TYPE }}
