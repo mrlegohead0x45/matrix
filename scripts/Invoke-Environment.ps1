@@ -13,7 +13,7 @@ function Invoke-Environment {
         if ($_ -match '^([^=]+)=(.*)') {
             [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2])
             # add it to the github actions environment
-            Write-Output "$matches[1]=$matches[2]" >> $env:GITHUB_ENV
+            Write-Output "$($matches[1])=$($(matches[2]))" >> $env:GITHUB_ENV
         }
     }}
 
