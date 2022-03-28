@@ -1,0 +1,74 @@
+name: CMake
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - cxx: clang++-12
+            cc: clang-12
+            os: ubuntu-latest
+            triplet: x64-linux
+
+          - cxx: g++-10
+            cc: gcc-10
+            os: ubuntu-latest
+            triplet: x64-linux
+
+          - cxx: cl
+            cc: cl
+            os: windows-latest
+            triplet: x64-windows
+
+      fail-fast: false
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      CXX: ${{ matrix.cxx }}
+      CC: ${{ matrix.cc }}
+      build_dir: ${{ github.workspace }}/build/${{ matrix.cxx }}
+
+    steps:
+      - name: Install Ninja
+        uses: urkle/action-get-ninja@v1
+
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Set up Visual Studio environment variables
+        shell: pwsh
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          . "${{ github.workspace }}/scripts/Invoke-Environment.ps1"
+          Invoke-Environment "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+
+      - name: Create build environment
+        shell: pwsh
+        run: cmake -E make_directory "${{ env.build_dir }}"
+
+      - name: Configure CMake
+        shell: pwsh
+        run: |
+          cmake -B "${{ env.build_dir }}" -S "${{ github.workspace }}" -G Ninja `
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DBUILD_TESTS=ON           `
+            -DVCPKG_TARGET_TRIPLET=${{ matrix.triplet }}
+
+      - name: Build
+        shell: pwsh
+        run: cmake --build "${{ env.build_dir }}" --config ${{ env.BUILD_TYPE }}
+
+      - name: Test
+        shell: pwsh
+        working-directory: ${{ env.build_dir }}/test
+        run: ctest -C ${{ env.BUILD_TYPE }}

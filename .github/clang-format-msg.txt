@@ -1,0 +1,2 @@
+Clang-format has reported that there are formatting violations within the code you have changed.
+Please run `clang-format -i --style=file <changed-c++-files>` and commit and push the result
