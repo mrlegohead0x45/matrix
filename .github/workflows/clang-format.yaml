@@ -37,7 +37,7 @@ jobs:
             }
           }
 
-          if ($not_formatted != 0) {
+          if ($not_formatted -ne 0) {
             # add a comment saying so
             gh pr comment ${{ github.event.number }} \
               -F ${{ github.workspace }}/.github/clang-format-msg.txt
