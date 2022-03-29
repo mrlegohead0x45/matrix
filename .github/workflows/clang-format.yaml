@@ -31,7 +31,7 @@ jobs:
 
           foreach($file in $files) {
             if ($file -match $cpp_file_re){ # if it's a c++ file
-              clang-format-13 -Werror -n $file
+              clang-format -Werror -n $file
               $not_formatted = $LASTEXITCODE # will be 0 if formatted, 1 if not
               echo $not_formatted
             }
