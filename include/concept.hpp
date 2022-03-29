@@ -12,15 +12,19 @@
 */
 
 namespace matrix {
-template <typename T>concept IntLike=requires(T a) { // clang-format off
-    {a*a}->std::convertible_to<int>; // clang-format on
-    {a+a}->std::convertible_to<int>;
-    {a-a}->std::convertible_to<int>;
-    {a/a}->std::convertible_to<int>;
-}
-&&std::convertible_to<T,int>;
 
-template <typename ScalarType>concept ValidScalarType=IntLike<ScalarType>&&std::equality_comparable<ScalarType>;
+template <typename T>
+concept IntLike = requires(T a) { // clang-format off
+    { a * a } -> std::convertible_to<int>; // clang-format on
+    { a + a } -> std::convertible_to<int>;
+    { a - a } -> std::convertible_to<int>;
+    { a / a } -> std::convertible_to<int>;
+}
+&&std::convertible_to<T, int>;
+
+template <typename ScalarType>
+concept ValidScalarType =
+    IntLike<ScalarType> && std::equality_comparable<ScalarType>;
 
 } // namespace matrix
 
