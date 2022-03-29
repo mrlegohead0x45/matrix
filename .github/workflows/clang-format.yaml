@@ -27,13 +27,11 @@ jobs:
           $cpp_file_re = ".*\.[ch]pp"
           $files = "${{ steps.files.outputs.added_modified }}" -split " "
           $not_formatted = 0
-          echo $files
 
           foreach($file in $files) {
             if ($file -match $cpp_file_re){ # if it's a c++ file
               clang-format -Werror -n $file
               $not_formatted = $LASTEXITCODE # will be 0 if formatted, 1 if not
-              echo $not_formatted
             }
           }
 
@@ -41,5 +39,6 @@ jobs:
             # add a comment saying so
             gh pr comment ${{ github.event.number }} `
               -F ${{ github.workspace }}/.github/clang-format-msg.txt
-            Write-Output "::error::A file was not formatted"
+            Write-Output "::error::File(s) were not formatted"
+            exit 1
           }
