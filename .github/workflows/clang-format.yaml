@@ -9,7 +9,7 @@ on:
 
 jobs:
   clang-format:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -20,22 +20,25 @@ jobs:
           format: space-delimited
 
       - name: Run clang-format
-        shell: bash {0}
+        shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cpp_file_re=".*\.[ch]pp"
+          $cpp_file_re = ".*\.[ch]pp"
+          $files = "${{ steps.files.outputs.added_modified }}" -split " "
+          $not_formatted = 0
 
-          for file in $files; do
-            if [[ $file =~ $cpp_file_re ]]; then # if it's a c++ file
-              clang-format-12 -Werror -n $file
-              not_formatted=$? # will be 0 if formatted, 1 if not
-            fi
-          done
+          foreach($file in $files) {
+            if ($file -match $cpp_file_re){ # if it's a c++ file
+              clang-format -Werror -n $file
+              $not_formatted = $LASTEXITCODE # will be 0 if formatted, 1 if not
+            }
+          }
 
-          if [[ $not_formatted -eq 1 ]]; then
+          if ($not_formatted -ne 0) {
             # add a comment saying so
-            gh pr comment ${{ github.event.number }} \
+            gh pr comment ${{ github.event.number }} `
               -F ${{ github.workspace }}/.github/clang-format-msg.txt
+            Write-Output "::error::File(s) were not formatted"
             exit 1
-          fi
+          }
