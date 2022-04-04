@@ -4,6 +4,7 @@
 #include "matrix.hpp"
 
 #include "concept.hpp"
+#include "exceptions.hpp"
 #include "shape.hpp"
 
 #include <cstddef>
@@ -27,6 +28,23 @@ requires ValidScalarType<ScalarType> Matrix<ScalarType>::Matrix(size_t rows,
     : m_shape(rows, columns) {
     this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
+}
+
+template <typename ScalarType>
+requires ValidScalarType<ScalarType>
+Matrix<ScalarType>::Matrix(vector<vector<ScalarType>> rows) {
+    if (rows.size() == 0) {
+        throw MatrixException("Matrix must have at least one row");
+    } else if (rows[0].size() == 0) {
+        throw MatrixException("Matrix must have at least one column");
+    } else {
+        for (size_t i = 1; i < rows.size(); i++) {
+            if (rows[i].size() != rows[0].size()) {
+                throw MatrixException("All rows must be the same size");
+            }
+        }
+    }
+    this->m_rows = rows;
 }
 
 template <typename ScalarType>
