@@ -14,6 +14,8 @@ namespace matrix {
 
 using std::vector, std::size_t;
 
+// constructors
+
 template <typename ScalarType>
 requires ValidScalarType<ScalarType> Matrix<ScalarType>::Matrix(Shape shape)
     : m_shape(shape) {
@@ -47,6 +49,8 @@ Matrix<ScalarType>::Matrix(vector<vector<ScalarType>> rows) {
     this->m_rows = rows;
 }
 
+// methods
+
 template <typename ScalarType>
 requires ValidScalarType<ScalarType> Matrix<ScalarType>
 Matrix<ScalarType>::getColumns()
@@ -75,5 +79,79 @@ const { return this->m_rows; }
 template <typename ScalarType>
 requires ValidScalarType<ScalarType> Shape Matrix<ScalarType>::getShape()
 const { return this->m_shape; }
+
+// operators
+
+// equality and inequality
+template <typename ScalarType>
+bool operator==(Matrix<ScalarType> const &lhs, Matrix<ScalarType> const &rhs) {
+    if (lhs.getShape() != rhs.getShape()) {
+        return false;
+    }
+    return lhs.getRows() == rhs.getRows();
+}
+template <typename ScalarType>
+bool operator!=(Matrix<ScalarType> const &lhs, Matrix<ScalarType> const &rhs) {
+    return !(lhs == rhs);
+}
+
+// matrix and scalar addition
+template <typename ScalarType>
+Matrix<ScalarType> operator+(Matrix<ScalarType> const &lhs,
+                             Matrix<ScalarType> const &rhs) {
+    if (lhs.getShape() != rhs.getShape()) {
+        throw MatrixException("Matrices must be the same shape");
+    }
+    Matrix<ScalarType> result(lhs.getShape());
+    for (size_t row_idx = 0; row_idx < lhs.getShape().getRows(); row_idx++) {
+        for (size_t col_idx = 0; col_idx < lhs.getShape().getColumns();
+             col_idx++) {
+            result[row_idx][col_idx] =
+                lhs[row_idx][col_idx] + rhs[row_idx][col_idx];
+        }
+    }
+    return result;
+}
+template <typename ScalarType>
+Matrix<ScalarType> operator+(Matrix<ScalarType> const &lhs,
+                             ScalarType const &rhs) {
+    Matrix<ScalarType> result(lhs.getShape());
+    for (size_t row_idx = 0; row_idx < lhs.getShape().getRows(); row_idx++) {
+        for (size_t col_idx = 0; col_idx < lhs.getShape().getColumns();
+             col_idx++) {
+            result[row_idx][col_idx] = lhs[row_idx][col_idx] + rhs;
+        }
+    }
+    return result;
+}
+
+// matrix and scalar subtraction
+template <typename ScalarType>
+Matrix<ScalarType> operator-(Matrix<ScalarType> const &lhs,
+                             Matrix<ScalarType> const &rhs) {
+    if (lhs.getShape() != rhs.getShape()) {
+        throw MatrixException("Matrices must be the same shape");
+    }
+    Matrix<ScalarType> result(lhs.getShape());
+    for (size_t row_idx = 0; row_idx < lhs.getShape().getRows(); row_idx++) {
+        for (size_t col_idx = 0; col_idx < lhs.getShape().getColumns();
+             col_idx++) {
+            result[row_idx][col_idx] =
+                lhs[row_idx][col_idx] - rhs[row_idx][col_idx];
+        }
+    }
+}
+template <typename ScalarType>
+Matrix<ScalarType> operator-(Matrix<ScalarType> const &lhs,
+                             ScalarType const &rhs) {
+    Matrix<ScalarType> result(lhs.getShape());
+    for (size_t row_idx = 0; row_idx < lhs.getShape().getRows(); row_idx++) {
+        for (size_t col_idx = 0; col_idx < lhs.getShape().getColumns();
+             col_idx++) {
+            result[row_idx][col_idx] = lhs[row_idx][col_idx] - rhs;
+        }
+    }
+    return result;
+}
 
 } // namespace matrix

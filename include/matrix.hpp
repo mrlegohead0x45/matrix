@@ -37,6 +37,32 @@ class Matrix {
         initializer_list<vector<ScalarType>>); // Matrix m{{1, 2, 3}, {4, 5, 6}}
 };
 
+template <typename ScalarType>
+bool operator==(const Matrix<ScalarType> &, const Matrix<ScalarType> &);
+template <typename ScalarType>
+bool operator!=(const Matrix<ScalarType> &, const Matrix<ScalarType> &);
+
+template <typename ScalarType>
+Matrix<ScalarType> operator+(const Matrix<ScalarType> &,
+                             const Matrix<ScalarType> &);
+template <typename ScalarType>
+Matrix<ScalarType> operator+(const Matrix<ScalarType> &,
+                             const ScalarType &);
+
+template <typename ScalarType>
+Matrix<ScalarType> operator-(const Matrix<ScalarType> &,
+                             const Matrix<ScalarType> &);
+template <typename ScalarType>
+Matrix<ScalarType> operator-(const Matrix<ScalarType> &,
+                             const ScalarType &);
+// matrix multiplication
+template <typename ScalarType>
+Matrix<ScalarType> operator*(const Matrix<ScalarType> &,
+                             const Matrix<ScalarType> &);
+// multiplication by scalar
+template <typename ScalarType>
+Matrix<ScalarType> operator*(const Matrix<ScalarType> &, const ScalarType &);
+
 } // namespace matrix
 
 #endif // MATRIX_HPP_
