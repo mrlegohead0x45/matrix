@@ -13,7 +13,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 
 set(matrix_srcs "src/matrix.cpp" "src/shape.cpp")
-set(matrix_headers "include/matrix.hpp" "include/shape.hpp")
+set(
+    matrix_headers
+    "include/matrix.hpp"
+    "include/shape.hpp"
+    "include/concept.hpp"
+    "include/exceptions.hpp"
+)
 add_library(matrix ${matrix_srcs})
 
 target_include_directories(matrix PRIVATE include)
