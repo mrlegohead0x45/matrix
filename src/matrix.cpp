@@ -20,7 +20,7 @@ template <typename ScalarType>
 requires ValidScalarType<ScalarType> Matrix<ScalarType>::Matrix(Shape shape)
     : m_shape(shape) {
     // allocate enough space for a matrix of this shape
-    this->m_columns.reserve(this->getShape().getColumns());
+    // this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 };
 
@@ -28,7 +28,7 @@ template <typename ScalarType>
 requires ValidScalarType<ScalarType> Matrix<ScalarType>::Matrix(size_t rows,
                                                                 size_t columns)
     : m_shape(rows, columns) {
-    this->m_columns.reserve(this->getShape().getColumns());
+    // this->m_columns.reserve(this->getShape().getColumns());
     this->m_rows.reserve(this->getShape().getRows());
 }
 
@@ -81,6 +81,13 @@ requires ValidScalarType<ScalarType> Shape Matrix<ScalarType>::getShape()
 const { return this->m_shape; }
 
 // operators
+
+// access
+template <typename ScalarType>
+requires ValidScalarType<ScalarType> vector<ScalarType>
+Matrix<ScalarType>::operator[](const size_t row_idx) {
+    return this->m_rows[row_idx];
+}
 
 // equality and inequality
 template <typename ScalarType>
@@ -153,5 +160,9 @@ Matrix<ScalarType> operator-(Matrix<ScalarType> const &lhs,
     }
     return result;
 }
+
+// apparently this is necessary
+// https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
+template class Matrix<int>;
 
 } // namespace matrix

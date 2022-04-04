@@ -23,6 +23,9 @@ class Shape {
     Shape(size_t, size_t);
 };
 
+bool operator==(const Shape &, const Shape &);
+bool operator!=(const Shape &, const Shape &);
+
 } // namespace matrix
 
 #endif // SHAPE_HPP_

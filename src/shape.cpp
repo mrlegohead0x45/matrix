@@ -15,4 +15,10 @@ size_t Shape::getColumns() const { return this->m_columns; }
 
 size_t Shape::getRows() const { return this->m_rows; }
 
+bool operator==(const Shape &lhs, const Shape &rhs) {
+    return lhs.getRows() == rhs.getRows() &&
+           lhs.getColumns() == rhs.getColumns();
+}
+bool operator!=(const Shape &lhs, const Shape &rhs) { return !(lhs == rhs); }
+
 } // namespace matrix

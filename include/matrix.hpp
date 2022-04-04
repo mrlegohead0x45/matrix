@@ -35,6 +35,8 @@ class Matrix {
     Matrix(vector<vector<ScalarType>>); // Matrix m({{1, 2, 3}, {4, 5, 6}})
     Matrix(
         initializer_list<vector<ScalarType>>); // Matrix m{{1, 2, 3}, {4, 5, 6}}
+
+    vector<ScalarType> operator[](const size_t);
 };
 
 template <typename ScalarType>
@@ -46,15 +48,13 @@ template <typename ScalarType>
 Matrix<ScalarType> operator+(const Matrix<ScalarType> &,
                              const Matrix<ScalarType> &);
 template <typename ScalarType>
-Matrix<ScalarType> operator+(const Matrix<ScalarType> &,
-                             const ScalarType &);
+Matrix<ScalarType> operator+(const Matrix<ScalarType> &, const ScalarType &);
 
 template <typename ScalarType>
 Matrix<ScalarType> operator-(const Matrix<ScalarType> &,
                              const Matrix<ScalarType> &);
 template <typename ScalarType>
-Matrix<ScalarType> operator-(const Matrix<ScalarType> &,
-                             const ScalarType &);
+Matrix<ScalarType> operator-(const Matrix<ScalarType> &, const ScalarType &);
 // matrix multiplication
 template <typename ScalarType>
 Matrix<ScalarType> operator*(const Matrix<ScalarType> &,
