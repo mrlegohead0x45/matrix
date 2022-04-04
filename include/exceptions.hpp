@@ -8,8 +8,14 @@
 
 namespace matrix {
 
-class MatrixException : public std::runtime_error {};
-class ShapeException : public MatrixException {};
+class MatrixException : public std::runtime_error {
+  public:
+    MatrixException(const char *message) : std::runtime_error(message) {}
+};
+class ShapeException : public MatrixException {
+  public:
+    ShapeException(const char *message) : MatrixException(message) {}
+};
 
 } // namespace matrix
 
